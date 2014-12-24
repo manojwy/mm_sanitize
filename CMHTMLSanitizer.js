@@ -286,9 +286,6 @@ MM.HTMLSanitizer = (function(html4) {
             while (htmlText) {
                 var m = htmlText.match(inTag ? INSIDE_TAG_TOKEN : OUTSIDE_TAG_TOKEN);
                 htmlText = htmlText.substring(m[0].length);
-
-console.log("htmlText: " + htmlText + ", " + m);
-
                 if (inTag) {
                     if (m[1]) { // attribute
                         // setAttribute with uppercase names doesn't work on IE6.
@@ -399,10 +396,12 @@ console.log("htmlText: " + htmlText + ", " + m);
     function makeHtmlSanitizer(sanitizeAttributes) {
         var stack;
         var ignoring;
+        var isStyleTag;
         return makeSaxParser({
             startDoc: function(_) {
                 stack = [];
                 ignoring = false;
+                isStyleTag = false;
             },
             startTag: function(tagName, attribs, out) {
                 if (ignoring) {
@@ -417,7 +416,13 @@ console.log("htmlText: " + htmlText + ", " + m);
                 } else if (eflags & html4.eflags.UNSAFE) {
                     ignoring = !(eflags & html4.eflags.EMPTY);
                     return;
+                } 
+                
+                if (eflags & html4.eflags.STYLE) {
+                	isStyleTag = true;
                 }
+                
+                //console.log("attribs: "  +attribs);
                 attribs = sanitizeAttributes(tagName, attribs);
                 // TODO(mikesamuel): relying on sanitizeAttributes not to
                 // insert unsafe attribute names.
@@ -438,6 +443,7 @@ console.log("htmlText: " + htmlText + ", " + m);
                 }
             },
             endTag: function(tagName, out) {
+            	isStyleTag = false;
                 if (ignoring) {
                     ignoring = false;
                     return;
@@ -482,9 +488,24 @@ console.log("htmlText: " + htmlText + ", " + m);
             pcdata: function(text, out) {
             	
                 if (!ignoring) {
+                
+                	if (isStyleTag == true) {
+                	
+                		var t = text.split(/[}]+/);
+  	            		var newText = "";
+                		for(var i = 0; i < t.length; i++) {     
+                			if (t[i].length == 0) {	
+                				continue;
+                			}
+	                		var escapedText = unescapeEntities(stripNULs(t[i] + "}"));
+        	        		var styleContent = [];
+        	        		styleContent.push("style", escapedText);
+        	        		newText = newText + sanitizeAttributes("style", styleContent)[1];
+                		}
+                		text = newText;
+                	}
+                
                     out.push(text);
-                    console.log("pcdata:text: " + text);
-                	console.log("pcdata:out: " + out);
                 }
                 
 
@@ -493,20 +514,17 @@ console.log("htmlText: " + htmlText + ", " + m);
             rcdata: function(text, out) {
                 if (!ignoring) {
                     out.push(text);
-                                    console.log("rcdata:text: " + text);
-                console.log("rcdata:out: " + out);
                 }
 
             },
             cdata: function(text, out) {
                 if (!ignoring) {
                     out.push(text);
-                                    console.log("cdata:text: " + text);
-                console.log("cdata:out: " + out);
                 }
 
             },
             endDoc: function(out) {
+            	isStyleTag = false;
                 for (var i = stack.length; --i >= 0;) {
                     out.push('</', stack[i], '>');
                 }

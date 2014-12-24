@@ -10,7 +10,7 @@
 	
 	window.onload = function() {
 		
-		var content = "<style>p:hover + div { display: block !important } .TT {border:1px solid blue;background-image:url(\"javascript:alert('XSS')\");}</style><body><p>hover here</p><div style=\"display: none\"><div class=\"TT\">aaa</div></div style=\"background: url('javascript:alert(\"Test\");')\"><div>Test</div></body>";
+		var content = "<style>p:hover + div { display: block !important } .TT {border:1px solid blue;}</style><body><p>hover here</p><div style=\"display: none\"><div class=\"TT\">aaa</div></div style=\"background: url('javascript:alert(\"Test\");')\"><div>Test</div></body>";
 		
 		console.log("Content: " + content);
 		
