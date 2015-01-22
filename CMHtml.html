@@ -12,6 +12,94 @@
 		
 		var content = "<style>p:hover + div { display: block !important } .TT {border:1px solid blue;}</style><body><p>hover here</p><div style=\"display: none\"><div class=\"TT\">aaa</div></div style=\"background: url('javascript:alert(\"Test\");')\"><div>Test</div></body>";
 		
+		
+		
+		content = "<img alt='test' src='test.jpg' usemap='#123'>";
+		
+		
+		
+		
+		content = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title>      ITM    </title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><link rel=\"stylesheet\" type=\"text/css\" href=\"\" data-info=\"style-sheet fetched and removed\"><style type=\"text/css\" data-oct=\"custom\">/*<![CDATA[*/    <html>    <head>    <title>Not Found    /*]]>*/    </style></head><body bgcolor=\"#FFFFFF\" text=\"#000000\">    <h1>      Test</h1></body></html"; 
+		
+		
+		
+				content = "<style>/*<![CDATA[*/    <html>    <head>    <title>Not Found    /*]]>*/    </style><h1>      Test</h1>"; 
+		
+		content = "/*<![CDATA[*/\
+    <html>\
+    <head>\
+    <title>Not Found\
+    /*]]>*/\
+    </style></head><body bgcolor=\"#FFFFFF\"";
+    
+    content = '<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" ';
+    
+    content = '<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml" xmlns="http://www.w3.org/TR/REC-html40"><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=us-ascii"><meta name=Generator content="Microsoft Word 12 (filtered medium)"><!--[if !mso]><style>v\:* {behavior:url(#default#VML);}\
+o\:* {behavior:url(#default#VML);}\
+w\:* {behavior:url(#default#VML);} \
+.shape {behavior:url(#default#VML);}\
+</style><![endif]--><STYLE><!--\
+/* Font Definitions */\
+@font-face\
+        {font-family:"Cambria Math";\
+        panose-1:2 4 5 3 5 4 6 3 2 4;}\
+@font-face\
+        {font-family:Calibri;\
+        panose-1:2 15 5 2 2 2 4 3 2 4;}\
+@font-face\
+        {font-family:Tahoma;\
+        panose-1:2 11 6 4 3 5 4 4 2 4;}\
+/* Style Definitions */\
+p.MsoNormal, li.MsoNormal, div.MsoNormal\
+        {margin:0cm;\
+        margin-bottom:.0001pt;\
+        font-size:11.0pt;\
+        font-family:"Calibri","sans-serif";}\
+a:link, span.MsoHyperlink\
+        {mso-style-priority:99;\
+        color:blue;\
+        text-decoration:underline;}\
+a:visited, span.MsoHyperlinkFollowed\
+        {mso-style-priority:99;\
+        color:purple;\
+        text-decoration:underline;}\
+p.MsoAcetate, li.MsoAcetate, div.MsoAcetate\
+        {mso-style-priority:99;\
+        mso-style-link:"Balloon Text Char";\
+        margin:0cm;\
+        margin-bottom:.0001pt;\
+        font-size:8.0pt;\
+        font-family:"Tahoma","sans-serif";}\
+span.EmailStyle17\
+        {mso-style-type:personal-compose;\
+        font-family:"Calibri","sans-serif";\
+        color:windowtext;}\
+span.BalloonTextChar\
+        {mso-style-name:"Balloon Text Char";\
+        mso-style-priority:99;\
+        mso-style-link:"Balloon Text";\
+        font-family:"Tahoma","sans-serif";}\
+.MsoChpDefault\
+        {mso-style-type:export-only;}\
+@page WordSection1\
+        {size:612.0pt 792.0pt;\
+        margin:72.0pt 72.0pt 72.0pt 72.0pt;}\
+div.WordSection1\
+        {page:WordSection1;}\
+--></STYLE>';
+		
+		//console.log("Content: " + content);
+		
+		
+		
+//		content = "<html><head><!--[if !mso]><style>.test{border:1px solid red;}</style><!--[if gte mso 9]><style>.test{border:1px solid red;}</style><![endif]--></head><body><div class='test'>Manoj Test</div></body></html>";
+
+
+content = '<html><head><!--[if !mso]><style></style><![endif]-->\
+<!--[if gte mso 9]><xml></xml><![endif]-->\
+<style><!----></style>\
+<!--[if gte mso 9]><xml></xml><![endif]-->\
+</head><body>Testasdasdasd</body></html>';		
 		console.log("Content: " + content);
 		
 		var new_content = MM.HTMLSanitizerWrapper(content);
@@ -21,8 +109,27 @@
 	};
 	
 	</script>
+	<style>
+	
+	td{
+		word-break: break-all;	
+	}
+	
+	
+	</style>
 	
 </head>
 <body>
+<table style="border: 1px solid red">
+<tr>
+<td>
+Manoj
+</td>
+<td>
+http://manoj.com/masfdfdasf/dsfsfdsfdsf/sdfdsf/dsfdsf/dsfdsfdsfds/dfsdsf/dsfds/fdsfds/fdsf/dsfds/fdsfdsfdsfdsfdsfsdfsdfds/dsfsfdsfdsf/sdfdsf/dsfdsf/dsfdsfdsfds/dfsdsf/dsfds/fdsfds/fdsf/dsfds/fdsfdsfdsfdsfdsfsdfsdfds/manoj
+</td>
+
+</tr>
+</table>
 </body>
 </html>

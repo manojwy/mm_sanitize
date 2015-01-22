@@ -45,6 +45,28 @@ MM.StyleSanitizer = function(value) {
 
 MM.HTMLSanitizerWrapper = function(emailcontent) {
                                                                try {
+                                                               
+     	// remove CDATA as we are not supporting it. Our parsing will fail if the CDATA contains any tags which are ignored
+        emailcontent = emailcontent.replace( /<!\[CDATA\[[\s\S]*?\]\]>/gi, '');
+            
+            
+     console.log("--------------------");
+     
+     console.log(emailcontent);
+     
+     console.log("--------------------");
+            
+                                                               
+        // to support old style css handling, details here: http://stackoverflow.com/questions/8695031/why-is-there-often-a-inside-the-style-tag
+        emailcontent = emailcontent.replace(/(<style[^>]*?>)(<!--)([^<]*?)(-->)(<\/style>)/gi, "$1 $3 $5");
+     
+     
+     console.log("--------------------");
+     
+     console.log(emailcontent);
+     
+     console.log("--------------------");
+     
 		emailcontent = MM.HTMLSanitizer.sanitize(emailcontent, function(ahref) {
 
 			//http://daringfireball.net/2010/07/improved_regex_for_matching_urls
