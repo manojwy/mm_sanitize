@@ -29,11 +29,11 @@
  * @namespace
  */
 
-if ("undefined" == typeof(MM)) {
-    var MM = {};
+if ("undefined" == typeof(CloudMagic)) {
+    var CloudMagic = {};
 };
 
-MM.HTMLSanitizer = (function(html4) {
+CloudMagic.HTMLSanitizer = (function(html4) {
                     var lcase;
                     // The below may not be true on browsers in the Turkish locale.
                     if ('script' === 'SCRIPT'.toLowerCase()) {
@@ -407,7 +407,6 @@ MM.HTMLSanitizer = (function(html4) {
                                          isStyleTag = false;
                                          },
                                          startTag: function(tagName, attribs, out) {
-                                         console.log("STARTTAG: " + tagName);
                                          if (ignoring) {
                                          return;
                                          }
@@ -426,7 +425,7 @@ MM.HTMLSanitizer = (function(html4) {
                                          isStyleTag = true;
                                          }
                                          
-                                         console.log("attribs: "  +attribs);
+                                         //console.log("attribs: "  +attribs);
                                          attribs = sanitizeAttributes(tagName, attribs);
                                          // TODO(mikesamuel): relying on sanitizeAttributes not to
                                          // insert unsafe attribute names.
@@ -447,7 +446,6 @@ MM.HTMLSanitizer = (function(html4) {
                                          }
                                          },
                                          endTag: function(tagName, out) {
-                                         console.log("ENDTAG: "  + tagName);
                                          isStyleTag = false;
                                          if (ignoring) {
                                          ignoring = false;
@@ -492,63 +490,64 @@ MM.HTMLSanitizer = (function(html4) {
                                          },
                                          pcdata: function(text, out) {
                                          
-                                         text = text.trim();
-                                         console.log("PCDATA: " + text + ", LEN: " + text.length+ ", isStyleTag: " + isStyleTag);
                                          if (!ignoring) {
-                                         
                                          if (isStyleTag == true) {
-                                         console.log(text);
-                                         
-                                         // if (text.length <= 2) {
-//                                          	return;
-//                                          }
-                                         
+                                         text = text.trim(); // avoid whitespaces
+                                         console.log("Text: " + text);
                                          var t = text.split(/[}]+/);
                                          var newText = "";
+                                         var textLen = 0;
                                          for(var i = 0; i < t.length; i++) {     
                                          if (t[i].length == 0) {	
                                          continue;
                                          }
-                                         var escapedText = unescapeEntities(stripNULs(t[i] + "}"));
-                                         var styleContent = [];
-                                         styleContent.push("style", escapedText);
+                                         console.log("Token: " + t[i]);
+                                         console.log("Text: " + text);
                                          
-                                         console.log(styleContent);
-                                         
-                                         var ttext = sanitizeAttributes("style", styleContent)[1];
-                                         console.log("ttext: "+ ttext);
-                                         if (ttext.length  > 1) {
-                                         	newText = newText + ttext;
-                                         	console.log(newText);
+                                         textLen = textLen + t[i].length;
+                                         var splitter = text.charAt(textLen);
+                                         if(splitter != "}") {
+                                         	splitter = "";
+                                         } else {
+                                         	textLen = textLen + 1;
                                          }
+                                         console.log("text.charAt(" + textLen +"): "+ text.charAt(textLen));
                                          
-                                         
+                                         var escapedText = unescapeEntities(stripNULs(t[i] + splitter));
+                                         console.log("escapedText: " + escapedText);
+                                         var ttext;
+                                         if (escapedText.length > 3) {
+                                         	var styleContent = [];
+                                         	styleContent.push("style", escapedText);
+                                         	ttext = sanitizeAttributes("style", styleContent)[1];
+                                            if (ttext.length > 1) { // verify text contains somethign other than '}'
+                                         		newText = newText + ttext;
+                                         	} else {
+                                         		newText = newText + splitter;
+                                         	}
+                                         } else {
+                                         	ttext = escapedText;
+                                         	newText = newText + ttext + splitter;
+                                         }
                                          }
                                          text = newText;
                                          }
-                                         
                                          out.push(text);
                                          }
-                                         
-                                         
-                                         
                                          },
                                          rcdata: function(text, out) {
-                                         //console.log("rcdata: "  + text);
                                          if (!ignoring) {
                                          out.push(text);
                                          }
                                          
                                          },
                                          cdata: function(text, out) {
-                                         //console.log("cdata: "  + text);
                                          if (!ignoring) {
                                          out.push(text);
                                          }
                                          
                                          },
                                          endDoc: function(out) {
-                                         //console.log("enddoc: "  + out);
                                          isStyleTag = false;
                                          for (var i = stack.length; --i >= 0;) {
                                          out.push('</', stack[i], '>');
@@ -642,4 +641,4 @@ MM.HTMLSanitizer = (function(html4) {
                     sanitize: sanitize,
                     unescapeEntities: unescapeEntities
                     };
-                    })(MM.html4);
+                    })(CloudMagic.html4);

@@ -4,13 +4,13 @@
  * @provides html4
  */
 
-if ("undefined" == typeof(MM)) {
-    var MM = {};
+if ("undefined" == typeof(CloudMagic)) {
+    var CloudMagic = {};
 };
 
 
-MM.html4 = {};
-MM.html4 .atype = {
+CloudMagic.html4 = {};
+CloudMagic.html4 .atype = {
     'NONE': 0,
     'URI': 1,
     'URI_FRAGMENT': 11,
@@ -24,7 +24,7 @@ MM.html4 .atype = {
     'CLASSES': 9,
     'FRAME_TARGET': 10
 };
-MM.html4 .ATTRIBS = {
+CloudMagic.html4 .ATTRIBS = {
     '*::class': 9,
     '*::dir': 0,
     '*::id': 4,
@@ -256,7 +256,7 @@ MM.html4 .ATTRIBS = {
     'ul::compact': 0,
     'ul::type': 0
 };
-MM.html4 .eflags = {
+CloudMagic.html4 .eflags = {
     'OPTIONAL_ENDTAG': 1,
     'EMPTY': 2,
     'CDATA': 4,
@@ -266,7 +266,7 @@ MM.html4 .eflags = {
     'SCRIPT': 64,
     'STYLE': 128
 };
-MM.html4 .ELEMENTS = {
+CloudMagic.html4 .ELEMENTS = {
     'a': 0,
     'abbr': 0,
     'acronym': 0,
@@ -345,6 +345,7 @@ MM.html4 .ELEMENTS = {
     'style': 128,
     'sub': 0,
     'sup': 0,
+    'section':0,
     'table': 0,
     'tbody': 1,
     'td': 1,

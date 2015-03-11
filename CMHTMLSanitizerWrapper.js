@@ -1,9 +1,9 @@
-if ("undefined" == typeof(MM)) {
-    var MM = {};
+if ("undefined" == typeof(CloudMagic)) {
+    var CloudMagic = {};
 };
 
 
-MM.StyleSanitizer = function(value) {
+CloudMagic.StyleSanitizer = function(value) {
 		var allowablecsslist1 = new Array(/(\w\/\/)/i, /(\w\/\/*\*)/i, /(\/\*\/)/i);
 
 		var allowablecsslist2 = new Array(/(\bdata:\b|eval|cookie|\bwindow\b|\bparent\b|\bthis\b)/i, //suspicious javascript-type words
@@ -43,31 +43,17 @@ MM.StyleSanitizer = function(value) {
 		return value;
 	};
 
-MM.HTMLSanitizerWrapper = function(emailcontent) {
-                                                               try {
-                                                               
-     	// remove CDATA as we are not supporting it. Our parsing will fail if the CDATA contains any tags which are ignored
+CloudMagic.HTMLSanitizerWrapper = function(emailcontent) {
+                                                            
+         try {
+        // remove CDATA as we are not supporting it. Our parsing will fail if the CDATA contains any tags which are ignored
         emailcontent = emailcontent.replace( /<!\[CDATA\[[\s\S]*?\]\]>/gi, '');
-            
-            
-     console.log("--------------------");
-     
-     console.log(emailcontent);
-     
-     console.log("--------------------");
-            
                                                                
         // to support old style css handling, details here: http://stackoverflow.com/questions/8695031/why-is-there-often-a-inside-the-style-tag
+        // bug fix. In case of MSO conditional comment, the comments are coming nested with combination of old style and new style STYLE tags. This can cause regex to malform the html.
         emailcontent = emailcontent.replace(/(<style[^>]*?>)(<!--)([^<]*?)(-->)(<\/style>)/gi, "$1 $3 $5");
-     
-     
-     console.log("--------------------");
-     
-     console.log(emailcontent);
-     
-     console.log("--------------------");
-     
-		emailcontent = MM.HTMLSanitizer.sanitize(emailcontent, function(ahref) {
+                                                               
+		emailcontent = CloudMagic.HTMLSanitizer.sanitize(emailcontent, function(ahref) {
 
 			//http://daringfireball.net/2010/07/improved_regex_for_matching_urls
 			//var patt1 = /(?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?������])/i;
@@ -85,7 +71,7 @@ MM.HTMLSanitizerWrapper = function(emailcontent) {
                 }
 			}
 			return ahref;
-		}, null, MM.StyleSanitizer);
+		}, null, CloudMagic.StyleSanitizer);
 		return emailcontent;
                                                                } catch (e) {
                                                                alert(e);

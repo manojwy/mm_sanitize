@@ -95,14 +95,40 @@ div.WordSection1\
 //		content = "<html><head><!--[if !mso]><style>.test{border:1px solid red;}</style><!--[if gte mso 9]><style>.test{border:1px solid red;}</style><![endif]--></head><body><div class='test'>Manoj Test</div></body></html>";
 
 
-content = '<html><head><!--[if !mso]><style></style><![endif]-->\
+content3 = '<html><head><!--[if !mso]><style></style><![endif]-->\
 <!--[if gte mso 9]><xml></xml><![endif]-->\
 <style><!----></style>\
 <!--[if gte mso 9]><xml></xml><![endif]-->\
 </head><body>Testasdasdasd</body></html>';		
+
+
+content2 = "<html>\
+<head>	\
+<style>\
+div[class=\"yfix\"] \r\n table[class*=\"ftd\"] > * > tr > td { display:block; width:100% !important; }\
+</style>\
+</head>\
+<body>\
+Manoj\
+</body>\
+</html>";
+
+
+content4 = "<html>\
+<head>	\
+<style>\
+div{ display:block;} span{ display:block;} table{ display:block;}\
+</style>\
+</head>\
+<body>\
+Manoj\
+</body>\
+</html>";
+
+
 		console.log("Content: " + content);
 		
-		var new_content = MM.HTMLSanitizerWrapper(content);
+		var new_content = CloudMagic.HTMLSanitizerWrapper(content);
 		
 		console.log("New_Content: "  +new_content);
 		
