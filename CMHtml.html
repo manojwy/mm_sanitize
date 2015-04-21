@@ -8,7 +8,22 @@
 	
 	<script type="text/javascript" >
 	
+
+	
 	window.onload = function() {
+	
+(function () {
+    var old = console.log;
+    var logger = document.getElementById('log');
+    console.log = function (message) {
+        if (typeof message == 'object') {
+            logger.innerText += (JSON && JSON.stringify ? JSON.stringify(message) : message) + '<br />';
+        } else {
+            logger.innerText += message + '\n---\n';
+        }
+    };
+})();
+
 		
 		var content = "<style>p:hover + div { display: block !important } .TT {border:1px solid blue;}</style><body><p>hover here</p><div style=\"display: none\"><div class=\"TT\">aaa</div></div style=\"background: url('javascript:alert(\"Test\");')\"><div>Test</div></body>";
 		
@@ -126,36 +141,42 @@ Manoj\
 </html>";
 
 
+content = "<style>\
+				* { margin: 0; padding: 0}\r\n\
+				\r\n\
+				body > img { display:inherit!important; }\r\n\
+				body { margin: 0; padding: 0}\r\n\
+				a:hover{ text-decoration:underline !important; }\r\n\
+				div, p, a, li, td { -webkit-text-size-adjust:none; }\r\n\
+				#ForceOutlook2010BrowserLink span { padding: 0px; }\r\n\
+				#outlook a {padding: 0 0 0 0;}\r\n\
+				v\:* { behavior: url(#default#VML); display:inline-block; }\r\n\
+				p {margin-bottom:0; margin:0}\r\n\
+				table td { border-collapse: collapse; }\r\n\
+				.ExternalClass * {line-height: normal;}\r\n\
+				.ExternalClass TD {line-height: normal !important;}\r\n\
+				\r\n\
+				</style>";
+
+
 		console.log("Content: " + content);
 		
 		var new_content = CloudMagic.HTMLSanitizerWrapper(content);
 		
-		console.log("New_Content: "  +new_content);
+		console.log("New_Content: "  + new_content);
 		
 	};
 	
 	</script>
-	<style>
-	
-	td{
-		word-break: break-all;	
-	}
-	
-	
-	</style>
-	
 </head>
 <body>
-<table style="border: 1px solid red">
-<tr>
-<td>
-Manoj
-</td>
-<td>
-http://manoj.com/masfdfdasf/dsfsfdsfdsf/sdfdsf/dsfdsf/dsfdsfdsfds/dfsdsf/dsfds/fdsfds/fdsf/dsfds/fdsfdsfdsfdsfdsfsdfsdfds/dsfsfdsfdsf/sdfdsf/dsfdsf/dsfdsfdsfds/dfsdsf/dsfds/fdsfds/fdsf/dsfds/fdsfdsfdsfdsfdsfsdfsdfds/manoj
-</td>
+<h2>
 
-</tr>
-</table>
+HTML Sanitizer - Playground
+
+</h2>
+
+<div id='log'>
+</div>
 </body>
 </html>

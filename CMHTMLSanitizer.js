@@ -494,25 +494,25 @@ CloudMagic.HTMLSanitizer = (function(html4) {
                                          if (isStyleTag == true) {
                                          text = text.trim(); // avoid whitespaces
                                          console.log("Text: " + text);
-                                         var t = text.split(/[}]+/);
+                                         var t = text.split(/[}]/);
                                          var newText = "";
                                          var textLen = 0;
                                          for(var i = 0; i < t.length; i++) {     
-                                         if (t[i].length == 0) {	
+                                         /*if (t[i].length == 0) {	
                                          continue;
-                                         }
-                                         console.log("Token: " + t[i]);
-                                         console.log("Text: " + text);
-                                         
-                                         textLen = textLen + t[i].length;
+                                         }*/
+                                        textLen = textLen + t[i].length;
+                                        console.log("Token: " + t[i] + ", LEN: "+ t[i].length + ", Total: " + textLen);
+                                        console.log("text.charAt(" + textLen +"): "+ text.charAt(textLen));
+                                        
                                          var splitter = text.charAt(textLen);
                                          if(splitter != "}") {
                                          	splitter = "";
                                          } else {
+                                         
                                          	textLen = textLen + 1;
                                          }
-                                         console.log("text.charAt(" + textLen +"): "+ text.charAt(textLen));
-                                         
+                                       
                                          var escapedText = unescapeEntities(stripNULs(t[i] + splitter));
                                          console.log("escapedText: " + escapedText);
                                          var ttext;
@@ -520,14 +520,15 @@ CloudMagic.HTMLSanitizer = (function(html4) {
                                          	var styleContent = [];
                                          	styleContent.push("style", escapedText);
                                          	ttext = sanitizeAttributes("style", styleContent)[1];
+                                         	console.log("sanitizeAttributes: " + ttext);
                                             if (ttext.length > 1) { // verify text contains somethign other than '}'
                                          		newText = newText + ttext;
                                          	} else {
                                          		newText = newText + splitter;
                                          	}
                                          } else {
-                                         	ttext = escapedText;
-                                         	newText = newText + ttext + splitter;
+                                         	ttext = " " + escapedText;
+                                         	newText = newText + ttext;
                                          }
                                          }
                                          text = newText;
