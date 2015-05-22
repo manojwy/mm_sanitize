@@ -6,7 +6,7 @@ if ("undefined" == typeof(CloudMagic)) {
 CloudMagic.StyleSanitizer = function(value) {
 		var allowablecsslist1 = new Array(/(\w\/\/)/i, /(\w\/\/*\*)/i, /(\/\*\/)/i);
 
-		var allowablecsslist2 = new Array(/(\bdata:\b|eval|cookie|\bwindow\b|\bparent\b|\bthis\b)/i, //suspicious javascript-type words
+		var allowablecsslist2 = new Array(/(eval|cookie|\bwindow\b|\bparent\b|\bthis\b)/i, //suspicious javascript-type words
 		/behaviou?r|expression|moz-binding|@import|@charset|(java|vb)?script|[\<]|\\\w/i, /[\<>]/i, // back slash, html tags,
 		/[\x7f-\xff]/i, // high bytes -- suspect
 		/[\x00-\x08\x0B\x0C\x0E-\x1F]/i, //low bytes -- suspect
@@ -55,6 +55,7 @@ CloudMagic.HTMLSanitizerWrapper = function(emailcontent) {
                                                                
 		emailcontent = CloudMagic.HTMLSanitizer.sanitize(emailcontent, function(ahref) {
 
+			console.log("HREF: " + ahref);
 			//http://daringfireball.net/2010/07/improved_regex_for_matching_urls
 			//var patt1 = /(?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?������])/i;
 			var patt1 = /^(\s)*(ftp|http|https|itms-services):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
@@ -64,8 +65,8 @@ CloudMagic.HTMLSanitizerWrapper = function(emailcontent) {
 			var patt5 = /^tel:/i;
             var patt6 = /^cid:/i;
             var patt7 = /\b[^:]{1,15}:\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
-
-			if(patt1.test(ahref) != true && patt2.test(ahref) != true && patt3.test(ahref) != true && patt4.test(ahref) != true && patt5.test(ahref) != true && patt6.test(ahref) != true) {
+			var patt8 = /^data:/i;
+			if(patt1.test(ahref) != true && patt2.test(ahref) != true && patt3.test(ahref) != true && patt4.test(ahref) != true && patt5.test(ahref) != true && patt6.test(ahref) != true && patt8.test(ahref) != true) {
 				if((patt7.test(ahref) != true) || (ahref.substring(0,10).toLowerCase() == "javascript")){
                     ahref = "about:blank";
                 }

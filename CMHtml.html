@@ -159,6 +159,21 @@ content = "<style>\
 				</style>";
 
 
+
+
+content = "<style>\
+.tap_item{background-image:url(data:image/png;base64,iVBTlMA/wD/APD/DQXrf+CA/3g==);}\
+</style>";
+
+/*
+content = "<style>\
+.tap_item{position:relative;background-repeat:no-repeat;background-position:97% 50%;background-color:#fff;background-image:url(http://test.com/my.png);}\
+</style>";
+
+content = '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" alt="Red dot" />';
+
+*/
+
 		console.log("Content: " + content);
 		
 		var new_content = CloudMagic.HTMLSanitizerWrapper(content);
